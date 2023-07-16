@@ -25,21 +25,21 @@ $ source venv/bin/activate
 
 
 ## 2) Airflow 설치
-
+참고: https://airflow.readthedocs.io/en/1.10.14/installation.html  
 가상환경을 실행했다면 Airflow 를 설치
 ```sh
 $ pip install -r apache-airflow-requirements.txt
 ```
 
 ## 3) Airflow 환경변수 설정
-airflow root 디렉토리 설정은 아래와 같이 가능
+airflow root 디렉토리 설정은 아래와 같이 가능  
 별도 python 경로가 필요하면 PYTHONPATH 환경변수에 경로지정을 해줘야함
 ```sh
 $ export AIRFLOW_HOME=~/Documents/python/airflow_test/airflow
 ```
 
 ## 3-1) DB 초기화
-Airflow는 기본으로 sqllite를 사용한다.
+Airflow는 기본으로 sqllite를 사용한다.  
 아래 명령어를 실행하면 자신의 Home Directory에 airflow 폴더 (~/airflow) 가 생성되는 것을 볼 수 있다.
 ```sh
 $ airflow db init
@@ -91,8 +91,8 @@ $ airflow scheduler
 # airflow dag 파일 실행 테스트
 
 ## 1) airflow dag 파일 로딩 테스트
-새로 만든 dag 파일이 컴파일이 잘되지 확인하기 위해서 우선 dag 파일을 ~/airflow/dags/ 으로 복사  
-복사 후 dags list 업 하면 airflow 에 등록 하기 위해 기본 컴파일 체크를 한다.
+새로 만든 dag 파일이 컴파일이 잘되지 확인하기 위해서 우선 dag 파일을 ~/airflow/dags/ 으로 복사    
+복사 후 dags list 업 하면 airflow 에 등록 하기 위해 기본 컴파일 체크를 한다.  
 ```sh
 $ cp ./my_dags.dags ~/airflow/dags/
 $ airflow dags list                   # List all the DAGs (airflow 1.10 버전)
