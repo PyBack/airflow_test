@@ -38,7 +38,7 @@ mp_pod_sample = make_mp_model_pod_op(task_id='1_1_mp1_main',
                                      image=f'{mp_code}:latest',
                                      dag=dag
                                      )
-b1_1 = mp_pod_sample.copy()
+b1_1 = mp_pod_sample
 
 b1_2 = BashOperator(
     task_id='1_2_mp1_bm_equal',

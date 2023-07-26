@@ -7,4 +7,5 @@ __pycache__
 *.png
 *.db
 *.cfg
+*.pyc
 webserver_config.py
