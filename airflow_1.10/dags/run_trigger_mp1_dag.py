@@ -34,11 +34,10 @@ b1_1 = BashOperator(
 )
 
 mp_code = 'glbl_asst_alloc_5asst'
-mp_pod_sample = make_mp_model_pod_op(task_id='1_1_mp1_main',
-                                     image=f'{mp_code}:latest',
-                                     dag=dag
-                                     )
-b1_1 = mp_pod_sample
+mp_pod_1_1 = make_mp_model_pod_op(task_id='1_1_mp1_main',
+                                  image=f'{mp_code}:latest',
+                                  dag=dag
+                                  )
 
 b1_2 = BashOperator(
     task_id='1_2_mp1_bm_equal',
@@ -69,6 +68,6 @@ bm_equal_end = DummyOperator(task_id='4_2_mp_bm_equal_end', dag=dag)
 bm_mvo_end = DummyOperator(task_id='4_3_mp_bm_mvo_end', dag=dag)
 
 
-start >> b1_1 >> [b2_1_520, b2_1_521, b2_1_522] >> main_end
+start >> mp_pod_1_1 >> [b2_1_520, b2_1_521, b2_1_522] >> main_end
 start >> b1_2 >> [b2_2_520, b2_2_521, b2_2_522] >> bm_equal_end
 start >> b1_3 >> [b2_3_520, b2_3_521, b2_3_522] >> bm_mvo_end
