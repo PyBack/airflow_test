@@ -4,6 +4,7 @@ import logging
 from airflow import DAG
 from airflow.operators.empty import EmptyOperator
 from airflow.operators.python import PythonOperator
+from airflow.operators.python import ShortCircuitOperator
 
 logger = logging.getLogger(__file__)
 
@@ -19,21 +20,21 @@ dag = DAG(
 today = "{{ dag_run.conf.run_date if dag_run.conf.run_date else ds_nodash}}"
 
 
-def is_weekend(base_ymd):
+def is_weekday(base_ymd):
     logger.info(f"execution_date=> {base_ymd}")
+    base_ymd = datetime.datetime.strptime(base_ymd, "%Y%m%d")
     day_of_week = base_ymd.weekday()
-    return day_of_week in (5, 6)
+    return day_of_week not in (5, 6)
 
 
 start_task = EmptyOperator(task_id="start_task",
                            dag=dag)
 
 
-skip_task = PythonOperator(
+skip_task = ShortCircuitOperator(
     task_id="skip_task",
-    python_callable=is_weekend,
+    python_callable=is_weekday,
     op_kwargs={'base_ymd': today},
-    # skip_on_failure=True,
     dag=dag,
 )
 
@@ -44,9 +45,10 @@ success_task = PythonOperator(
 )
 
 end_task = EmptyOperator(task_id="end_task",
+                         trigger_rule="none_failed",    # or 'all_done'.
                          dag=dag,
                          )
 
 start_task >> [skip_task, success_task]
-skip_task >> end_task
+# skip_task >> end_task
 success_task >> end_task
