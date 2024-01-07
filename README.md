@@ -28,19 +28,25 @@ $ source venv/bin/activate
 참고: https://airflow.readthedocs.io/en/1.10.14/installation.html  
 가상환경을 실행했다면 Airflow 를 설치
 ```sh
-$ pip install -r apache-airflow-requirements.txt
+# Airflow 1.10
+$ pip install -r airflow_1.10/requirements.txt
+# Airflow 2.6.3
+$ pip install -r airflow/requirements.txt
 ```
 
 ## 3) Airflow 환경변수 설정
 airflow root 디렉토리 설정은 아래와 같이 가능  
 별도 python 경로가 필요하면 PYTHONPATH 환경변수에 경로지정을 해줘야함
 ```sh
+# Airflow 1.10
+$ export AIRFLOW_HOME=~/Documents/python/airflow_test/airflow_1.10
+# Airflow 2.6.3
 $ export AIRFLOW_HOME=~/Documents/python/airflow_test/airflow
 ```
 
 ## 3-1) DB 초기화
 Airflow는 기본으로 sqllite를 사용한다.  
-아래 명령어를 실행하면 자신의 Home Directory에 airflow 폴더 (~/airflow) 가 생성되는 것을 볼 수 있다.
+아래 명령어를 실행하면 자신의 Home Directory에 airflow 폴더 (~/airflow 혹은 $AIRFLOW_HOME) 가 생성되는 것을 볼 수 있다.
 ```sh
 $ airflow db init
 ```
