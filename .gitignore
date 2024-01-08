@@ -1,6 +1,7 @@
 .venv_airflow
 .venv_airflow_1.10
 .idea
+.cache
 logs
 __pycache__
 
