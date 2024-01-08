@@ -115,18 +115,43 @@ $ airflow dags list-import-errors     # List all the DAGs that have import error
 $ airflow dags show [-h] [--imgcat] [-s SAVE] [-S SUBDIR] [-v] dag_id
 ```
 
+## 3) airflow dag 파일 task list 출력
+```sh
+# dag_id 에 등록된 task list 출력
+$ airflow tasks list dag_id
+# dag_id 에 등록된 task list 를 tree 형태로 출력
+$ airflow tasks list dag_id --tree
+```
 
-## 3) airflow dag 파일 테스트
 
+## 4) airflow dag 파일 테스트
 ```sh
 # 2.5.1 버전 
 # Execute one single DagRun for a given DAG and execution date.
 $ airflow dags test [-h] [-c CONF] [--imgcat-dagrun] [--save-dagrun SAVE_DAGRUN]
                   [--show-dagrun] [-S SUBDIR] [-v]
-                  dag_id [execution_date]
+                  [dag_id] [execution_date]
+# 입력된 dag를 execution_date에 실행
+# airflow dags test [dag_id] [execution_date]
+$ airflow dags test templates_test 2021-06-01
+
 # 1.10 버전 
 # Test a task instance. This will run a task without checking for dependencies or recording its state in the database.
 $ airflow test [-h] [-sd SUBDIR] [-dr] [-tp TASK_PARAMS] [-pm]  dag_id task_id execution_date
+```
+
+## 4-1) airflow task 별 테스트
+```sh
+# 입력된 dag의 task를 execution_date에 실행
+# airflow tasks test [dag_id] [task_id] [execution_date]
+$ airflow tasks test templates_test sumnumbers 2021-06-01
+```
+
+## 4-2) airflow dag 파일 디버깅 방법
+```python
+# dag 파일 하단에 다음과 같은 코드를 넣으면 breakpoint() 나 IDE 의 debugger 작동
+if __name__ == "__main__":
+    dag.test()
 ```
 
 참고: https://airflow.apache.org/docs/apache-airflow/stable/cli-and-env-variables-ref.html   
