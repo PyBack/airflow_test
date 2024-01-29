@@ -30,18 +30,21 @@ today = "{{ dag_run.conf.run_date if dag_run.conf.run_date else ds_nodash }}"
 # Data interval end (data_interval_end) 값이 해당 입력값으로 실행 됨
 # execuation_date template variable 은 depricated 예정으로 logical_date 로 변경 필요
 target_datetime = "{{ data_interval_end | ts_nodash}}"
+target_date = "{{ data_interval_end | ds_nodash}}"
 
 templated_command = """
     echo "ds_nodash : {{ ds_nodash }}"
     echo "data_interval_start: {{ data_interval_start }}"
     echo "data_interval_end: {{ data_interval_end }}"
     echo "data_interval_end_ts_noash: {{ data_interval_end | ts_nodash}}"
+    echo "data_interval_end_ds_noash: {{ data_interval_end | ds_nodash}}"
 """
 
 
-def templated_test(d1):
+def templated_test(d1, d2):
     logger.info("{{ ds }}")
     logger.info(f"d1 test: {d1}")
+    logger.info(f"d2 test: {d2}")
     input_dt = dt.datetime.strptime(d1, "%Y%m%dT%H%M%S")
     input_dt_1dayago = input_dt - dt.timedelta(days=1)
     logger.info(f"input_dt: {input_dt}")
@@ -60,7 +63,7 @@ t1 = BashOperator(
 t2 = PythonOperator(
     task_id='python_task',
     python_callable=templated_test,
-    op_args=[target_datetime],
+    op_args=[target_datetime, target_date,],
     dag=dag,
 )
 
